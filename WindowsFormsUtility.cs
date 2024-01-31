@@ -5,6 +5,7 @@ using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace CPUWindowsFormFramework
 {
@@ -42,12 +43,47 @@ namespace CPUWindowsFormFramework
             }
 
         }
-        public static void FormatGridForSearchResults(DataGridView grid)
+        public static void FormatGridForSearchResults(DataGridView grid, string tablename)
         {
             grid.AllowUserToAddRows = false;
             grid.ReadOnly = true;
+            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;            DoFormatGrid(grid, tablename);
+            DoFormatGrid(grid, tablename);
+        }
+
+        public static void FormatGridForEdit(DataGridView grid, string tablename)
+        {
+            grid.EditMode = DataGridViewEditMode.EditOnEnter;
+            DoFormatGrid(grid, tablename);
+        }
+
+        private static void DoFormatGrid(DataGridView grid, string tablename)
+        {
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grid.RowHeadersWidth = 25;
+            foreach(DataGridViewColumn col in grid.Columns)
+            {
+                if (col.Name.EndsWith("Id"))
+                {
+                    col.Visible = false;
+                }
+            }
+            string pkname = tablename + "Id";
+            if (grid.Columns.Contains(pkname))
+            {
+                grid.Columns[pkname].Visible = false;
+            }
+        }
+
+        public static void AddComboBoxToGrid(DataGridView grid, DataTable datasource, string tablename, string displaymember)
+        {
+            DataGridViewComboBoxColumn c = new();
+            c.DataSource = datasource;
+            c.DisplayMember = displaymember;
+            c.ValueMember = tablename + "Id";
+            c.DataPropertyName = c.ValueMember;
+            c.HeaderText = tablename;
+            grid.Columns.Insert(0, c);
         }
 
         public static bool IsFormOpen(Type formtype, int pkvalue = 0)
