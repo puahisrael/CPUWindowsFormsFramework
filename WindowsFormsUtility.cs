@@ -28,7 +28,7 @@ namespace CPUWindowsFormFramework
                     propertyname = "Text";
                     break;
                 case "dtp":
-                    propertyname = "Value";
+                    propertyname = "Value"; 
                     break;
 
             }
