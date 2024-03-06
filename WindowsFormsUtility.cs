@@ -30,12 +30,18 @@ namespace CPUWindowsFormFramework
                 case "dtp":
                     propertyname = "Value"; 
                     break;
-
+                case "cbx":
+                    propertyname = "Checked";
+                    break;
             }
 
-            if (propertyname != "" && columnname != "")
+            if (propertyname != "" && propertyname != "Checked" && columnname != "")
             {
                 ctrl.DataBindings.Add(propertyname, bindsource, columnname, true, DataSourceUpdateMode.OnPropertyChanged);
+            }
+            else if (propertyname == "Checked")
+            {
+                ctrl.DataBindings.Add(propertyname, bindsource, columnname, false, DataSourceUpdateMode.OnPropertyChanged);
             }
 
         }
