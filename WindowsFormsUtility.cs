@@ -41,7 +41,7 @@ namespace CPUWindowsFormFramework
             }
             else if (propertyname == "Checked")
             {
-                ctrl.DataBindings.Add(propertyname, bindsource, columnname, false, DataSourceUpdateMode.OnPropertyChanged);
+                ctrl.DataBindings.Add(propertyname, bindsource, columnname, true, DataSourceUpdateMode.OnPropertyChanged);
             }
 
         }
